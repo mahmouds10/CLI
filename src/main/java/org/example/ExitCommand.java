@@ -1,4 +1,6 @@
 package org.example;
+
+// Command to exit the CLI
 public class ExitCommand implements CommandExecutor {
 
     @Override
