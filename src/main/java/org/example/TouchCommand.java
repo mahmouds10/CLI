@@ -3,7 +3,7 @@ import java.io.File;
 import java.io.IOException;
 
 // Command to create a new file
-public class TouchCommand implements CommandExecutor {
+public class TouchCommand implements Command {
     @Override
     public void execute(String input) {
         String[] tokens = input.split(" ");

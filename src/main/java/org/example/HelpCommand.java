@@ -1,7 +1,7 @@
 package org.example;
 
 // Command to display available commands with usage and options
-public class HelpCommand implements CommandExecutor {
+public class HelpCommand implements Command {
 
     @Override
     public void execute(String input) {

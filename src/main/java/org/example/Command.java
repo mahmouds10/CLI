@@ -1,6 +1,6 @@
 package org.example;
 
 // Interface for commands
-public interface CommandExecutor  {
+public interface Command {
     void execute(String input);
 }

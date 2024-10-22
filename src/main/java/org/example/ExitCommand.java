@@ -1,7 +1,7 @@
 package org.example;
 
 // Command to exit the CLI
-public class ExitCommand implements CommandExecutor {
+public class ExitCommand implements Command {
 
     @Override
     public void execute(String input) {

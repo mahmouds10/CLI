@@ -2,7 +2,7 @@ package org.example;
 import java.io.File;
 
 // Command to list files in the current directory
-public class LsCommand implements CommandExecutor {
+public class LsCommand implements Command {
 
     @Override
     public void execute(String input) {

@@ -4,7 +4,7 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class CatCommand implements CommandExecutor {
+public class CatCommand implements Command {
 
     @Override
     public void execute(String input) {

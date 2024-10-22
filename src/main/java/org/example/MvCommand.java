@@ -3,7 +3,7 @@ package org.example;
 import java.io.File;
 
 // Command to move or rename a file
-public class MvCommand implements CommandExecutor {
+public class MvCommand implements Command {
 
     @Override
     public void execute(String input) {

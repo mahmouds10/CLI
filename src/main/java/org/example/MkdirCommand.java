@@ -2,7 +2,7 @@ package org.example;
 import java.io.File;
 
 // Command to create a new directory
-public class MkdirCommand implements CommandExecutor {
+public class MkdirCommand implements Command {
 
     @Override
     public void execute(String input) {

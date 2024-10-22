@@ -4,7 +4,7 @@ import java.util.HashMap;
 // The command parser class that parses user input and returns the corresponding command
 public class CommandParser {
     // A map to store the commands
-    private final HashMap<String, CommandExecutor> commands;
+    private final HashMap<String, Command> commands;
 
     // Constructor to initialize the command map
     public CommandParser() {
@@ -38,7 +38,7 @@ public class CommandParser {
     }
 
     // Method to parse the user input and return the corresponding command
-    public CommandExecutor parse(String input) {
+    public Command parse(String input) {
 
         // Handle appending operator
         if (input.contains(">>")) {
@@ -54,7 +54,7 @@ public class CommandParser {
         String[] tokens = input.split(" ");
 
         // Get the command from the first token
-        CommandExecutor command = commands.get(tokens[0]);
+        Command command = commands.get(tokens[0]);
 
         // Return the command if it is recognized
         if (command != null) {

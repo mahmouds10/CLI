@@ -2,7 +2,7 @@ package org.example;
 import java.io.File;
 
 // Command to delete a file
-public class RmCommand implements CommandExecutor {
+public class RmCommand implements Command {
 
     @Override
     public void execute(String input) {

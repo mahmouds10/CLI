@@ -30,7 +30,7 @@ public class CLI {
             if(input.trim().isEmpty()) continue;
 
             // Parse the input and get the corresponding command
-            CommandExecutor command = parser.parse(input);
+            Command command = parser.parse(input);
 
             // Execute the command if it is recognized by the parser    
             if (command != null) {

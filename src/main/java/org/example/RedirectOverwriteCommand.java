@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 // Command to overwrite output to a file
-public class RedirectOverwriteCommand implements CommandExecutor {
+public class RedirectOverwriteCommand implements Command {
 
     @Override
     public void execute(String input) {

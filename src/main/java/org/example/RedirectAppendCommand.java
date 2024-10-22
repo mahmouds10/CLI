@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 // Command to append output to a file
-public class RedirectAppendCommand implements CommandExecutor {
+public class RedirectAppendCommand implements Command {
 
     @Override
     public void execute(String input) {
