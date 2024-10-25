@@ -103,6 +103,10 @@ class LsCommandTest {
     // Test the recursive files option
     @Test
     void TestRecursiveLsCommand() {
+        // Change to the testing directory
+        CdCommand cdCommand = new CdCommand();
+        cdCommand.execute("cd testing");
+
         // Execute the 'ls' command recursively
         lsCommand.execute("ls -r");
 
@@ -110,82 +114,12 @@ class LsCommandTest {
         String actualOutput = outputStream.toString();
 
         // Define the expected output with proper indentation and structure
-        String expectedOutput = ".gitignore\n"
-                + ".idea\n"
-                + "  .gitignore\n"
-                + "  compiler.xml\n"
-                + "  encodings.xml\n"
-                + "  inspectionProfiles\n"
-                + "    Project_Default.xml\n"
-                + "  jarRepositories.xml\n"
-                + "  libraries\n"
-                + "    junit.xml\n"
-                + "  misc.xml\n"
-                + "  uiDesigner.xml\n"
-                + "  vcs.xml\n"
-                + "  workspace.xml\n"
-                + "Class_Diagram.png\n"
-                + "pom.xml\n"
-                + "src\n"
-                + "  main\n"
-                + "    java\n"
-                + "      org\n"
-                + "        example\n"
-                + "          CatCommand.java\n"
-                + "          CdCommand.java\n"
-                + "          CLI.java\n"
-                + "          Command.java\n"
-                + "          CommandParser.java\n"
-                + "          ExitCommand.java\n"
-                + "          HelpCommand.java\n"
-                + "          LsCommand.java\n"
-                + "          MkdirCommand.java\n"
-                + "          MvCommand.java\n"
-                + "          PwdCommand.java\n"
-                + "          RedirectAppendCommand.java\n"
-                + "          RedirectOverwriteCommand.java\n"
-                + "          RmCommand.java\n"
-                + "          RmdirCommand.java\n"
-                + "          TouchCommand.java\n"
-                + "    resources\n"
-                + CLI.ANSI_YELLOW + "No files in current directory" + CLI.ANSI_RESET + "\n"
-                + "  test\n"
-                + "    java\n"
-                + "      org\n"
-                + "        example\n"
-                + "          LsCommandTest.java\n"
-                + "target\n"
-                + "  classes\n"
-                + "    org\n"
-                + "      example\n"
-                + "        CatCommand.class\n"
-                + "        CdCommand.class\n"
-                + "        CLI.class\n"
-                + "        Command.class\n"
-                + "        CommandParser.class\n"
-                + "        ExitCommand.class\n"
-                + "        HelpCommand.class\n"
-                + "        LsCommand.class\n"
-                + "        MkdirCommand.class\n"
-                + "        MvCommand.class\n"
-                + "        PwdCommand.class\n"
-                + "        RedirectAppendCommand.class\n"
-                + "        RedirectOverwriteCommand.class\n"
-                + "        RmCommand.class\n"
-                + "        RmdirCommand.class\n"
-                + "        TouchCommand.class\n"
-                + "  generated-sources\n"
-                + "    annotations\n"
-                + CLI.ANSI_YELLOW + "No files in current directory" + CLI.ANSI_RESET + "\n"
-                + "  generated-test-sources\n"
-                + "    test-annotations\n"
-                + CLI.ANSI_YELLOW + "No files in current directory" + CLI.ANSI_RESET + "\n"
-                + "  test-classes\n"
-                + "    org\n"
-                + "      example\n"
-                + "        LsCommandTest.class\n"
-                + "Text_Files\n"
-                + CLI.ANSI_YELLOW + "No files in current directory" + CLI.ANSI_RESET;
+        String expectedOutput =
+                """
+                        Recursive_Folder
+                          Inner1.txt
+                          inner2.txt
+                        Test.txt""";
 
         // Normalize line endings for cross-platform compatibility
         assertEquals(
