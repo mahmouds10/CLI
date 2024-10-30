@@ -1,6 +1,10 @@
 package org.example;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 // Command to move or rename a file
 public class MvCommand implements Command {
@@ -15,41 +19,41 @@ public class MvCommand implements Command {
             return;
         }
 
-        // Create file object for the source file
-        File source = new File(CLI.currentPath, tokens[1]);
+        // Create Path object for the source file
+        Path sourcePath = new File(CLI.currentPath, tokens[1]).toPath();
 
         // Check if the source file exists
-        if (!source.exists()) {
+        if (!Files.exists(sourcePath)) {
             System.out.println(CLI.ANSI_RED + "Source file does not exist." + CLI.ANSI_RESET);
             return;
         }
 
-        File destination;
+        Path destinationPath;
 
         if (tokens.length == 3) {
-              // Move to the destination directory, keeping the same name
-            destination = new File(tokens[2], source.getName());
+            // Move to the destination directory, keeping the same name
+            destinationPath = new File(tokens[2], sourcePath.getFileName().toString()).toPath();
         } else {
             // Move to the destination directory with the new name
-            destination = new File(tokens[2], tokens[3]);  
+            destinationPath = new File(tokens[2], tokens[3]).toPath();
         }
 
-        // Move the file to the destination
-        if (tokens.length == 3){
-            if (source.renameTo(destination)) {
-            System.out.println("Moved " + source.getName() + " to " + destination.getAbsolutePath());
+        try {
+            // Ensure the destination directory exists
+            Files.createDirectories(destinationPath.getParent());
+
+            // Move or rename the file
+            Files.move(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+
+            // Print success message
+            if (tokens.length == 3) {
+                System.out.println("Moved " + sourcePath.getFileName() + " to " + destinationPath.toAbsolutePath());
             } else {
-                System.out.println(CLI.ANSI_RED + "Failed to move file." + CLI.ANSI_RESET);
+                System.out.println("Renamed " + sourcePath.getFileName() + " to " + destinationPath.getFileName() + " and moved to " + destinationPath.getParent().toAbsolutePath());
             }
+
+        } catch (IOException e) {
+            System.out.println(CLI.ANSI_RED + "Failed to move or rename file: " + e.getMessage() + CLI.ANSI_RESET);
         }
-        // Rename the file and move to the destination
-        else {
-            if (source.renameTo(destination)) {
-            System.out.println("Renamed " + source.getName() + " to " + destination.getName()+ " and moved to " + destination.getAbsolutePath());
-            } else {
-                System.out.println(CLI.ANSI_RED + "Failed to rename or move file." + CLI.ANSI_RESET);
-            }
-        }
-        
     }
 }

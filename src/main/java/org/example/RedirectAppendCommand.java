@@ -3,9 +3,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
 
 // Command to append output to a file
 public class RedirectAppendCommand implements Command {
+    // Create a scanner object to read user input
+    Scanner scanner = new Scanner(System.in);
 
     @Override
     public void execute(String input) {
@@ -18,6 +21,23 @@ public class RedirectAppendCommand implements Command {
         }
         // Get the file name
         String fileName = tokens[1].trim();
+
+        // Check if the file exists
+        if (!new File (fileName).exists()) {
+            // Choose either create new file or no
+            System.out.println(CLI.ANSI_YELLOW+"File does not exist. Want you to create new one and write?: "+CLI.ANSI_RESET);
+            System.out.println(CLI.ANSI_YELLOW+"Y --> Accept"+CLI.ANSI_RESET);
+            System.out.println(CLI.ANSI_YELLOW+"N --> Reject"+CLI.ANSI_RESET);
+            char option = scanner.next().charAt(0);
+            if (option == 'N' || option == 'n') {
+                return;
+            }
+            if (option != 'Y' && option != 'y') {
+                System.out.println(CLI.ANSI_RED+"Invalid Option: "+CLI.ANSI_RESET);
+                return;
+            }
+
+        }
 
         // Split the output tokens and remove the first token which is the command
         String[] outputTokens = Arrays.copyOfRange(tokens[0].split(" "), 1, tokens[0].split(" ").length);

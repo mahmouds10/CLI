@@ -31,10 +31,6 @@ public class CommandParser {
         commands.put("exit", new ExitCommand());
         // help command to display the list of available commands
         commands.put("help", new HelpCommand());
-        // overwriting command
-        commands.put(">", new RedirectOverwriteCommand());
-        // appending command
-        commands.put(">>", new RedirectAppendCommand());
     }
 
     // Method to parse the user input and return the corresponding command
