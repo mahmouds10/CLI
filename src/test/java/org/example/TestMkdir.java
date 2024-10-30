@@ -43,4 +43,24 @@ public class TestMkdir {
 
         assertTrue(Arrays.asList(directories).contains("files"));
     }
+
+    // test if dir is already exists
+    @Test
+    public void TestExistDir(){
+        c = new MkdirCommand();
+        c.execute("mkdir src");
+        String actual = outputStream.toString().replaceAll("\u001B\\[[;\\d]*m", "");
+        String expected = "Directory already exists.";
+        assertEquals(expected.trim(), actual.trim());
+    }
+
+    // test invalid usage
+    @Test
+    public void TestInvalidUsage(){
+        c = new MkdirCommand();
+        c.execute("mkdir");
+        String actual = outputStream.toString().replaceAll("\u001B\\[[;\\d]*m", "");
+        String expected = "Invalid usage. Correct usage: mkdir <directory_name>";
+        assertEquals(expected.trim(), actual.trim());
+    }
 }
