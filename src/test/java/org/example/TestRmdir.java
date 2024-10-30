@@ -43,4 +43,15 @@ public class TestRmdir {
 
         assertTrue(!Arrays.asList(directories).contains("files"));
     }
+
+    // test wrong usage
+    @Test
+    public void testWrongUsage()
+    {
+        c = new RmdirCommand();
+        c.execute("rmdir");
+        String actual = outputStream.toString().replaceAll("\u001B\\[[;\\d]*m", "");
+        String expected = "Invalid usage. Correct usage: rmdir <directory_name>";
+        assertEquals(expected.trim(), actual.trim());
+    }
 }
