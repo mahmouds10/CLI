@@ -16,14 +16,17 @@ public class RedirectAppendCommand implements Command {
 
         // Check the number of arguments
         if (tokens.length != 2) {
-            System.out.println(CLI.ANSI_RED+"Invalid usage. Correct usage: echo >> file"+CLI.ANSI_RESET);
+            System.out.println(CLI.ANSI_RED+"Invalid usage. Correct usage: echo content >> file"+CLI.ANSI_RESET);
             return;
         }
         // Get the file name
         String fileName = tokens[1].trim();
 
+        // Create a file object with the given file name
+        File file = new File(CLI.currentPath, fileName);
+
         // Check if the file exists
-        if (!new File (fileName).exists()) {
+        if (!file.exists()) {
             // Choose either create new file or no
             System.out.println(CLI.ANSI_YELLOW+"File does not exist. Want you to create new one and write?: "+CLI.ANSI_RESET);
             System.out.println(CLI.ANSI_YELLOW+"Y --> Accept"+CLI.ANSI_RESET);
@@ -45,8 +48,6 @@ public class RedirectAppendCommand implements Command {
         // Join the output tokens to form the output string
         String output = String.join(" ", outputTokens);
 
-        // Create a file object with the given file name
-        File file = new File(CLI.currentPath, fileName);
         try (FileWriter writer = new FileWriter(file, true)) {
             // Append the output to the file
             writer.write(output);

@@ -24,7 +24,6 @@ public class CdCommand implements Command {
             if (parentDir != null) {
                 // Change the current path to the parent directory
                 CLI.currentPath = parentDir.getAbsolutePath();
-                System.out.println("Changed to " + CLI.currentPath);
             } else {
                 System.out.println(CLI.ANSI_RED + "Already at the root directory." +CLI.ANSI_RESET);
             }

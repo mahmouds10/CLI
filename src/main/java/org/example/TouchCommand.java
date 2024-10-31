@@ -19,7 +19,7 @@ public class TouchCommand implements Command {
         try {
             // Check if the file already exists
             if (file.exists()) {
-                System.out.println("File already exists.");
+                System.out.println(CLI.ANSI_RED+"File already exists."+CLI.ANSI_RESET);
                 file.setLastModified(System.currentTimeMillis());
             } else if (file.createNewFile()) {
                 // Create the file

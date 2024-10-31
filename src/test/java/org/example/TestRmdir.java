@@ -1,15 +1,18 @@
+package org.example;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestRmdir {
-    Command c;
+    Command rmdirCommand;
 
     // Save the original System.out to reuse after the test
     private final PrintStream originalOut = System.out;
@@ -18,7 +21,7 @@ public class TestRmdir {
     private ByteArrayOutputStream outputStream;
     @BeforeEach
     void setUp() {
-        Main.currentPath = System.getProperty("user.dir");
+        CLI.currentPath = System.getProperty("user.dir");
 
         // Set up the output stream to capture System.out
         outputStream = new ByteArrayOutputStream();
@@ -31,48 +34,62 @@ public class TestRmdir {
         // Restore System.out to its original state
         System.setOut(originalOut);
     }
-    @Test
-    public void testRmdir(){
-        c = new RmdirCommand();
-        c.execute("rmdir files");
 
-        c = new LsCommand();
-        c.execute("ls");
-        String actualOutput = outputStream.toString();
-        String[] directories = actualOutput.split("\r\n");
+    // Test normal usage
+    @Nested
+    class normalUsage {
+        @BeforeEach
+        void setUp() {
+            System.setOut(originalOut);
+            MkdirCommand mkdirCommand = new MkdirCommand();
+            mkdirCommand.execute("mkdir empty");
+        }
+        @Test
+        public void testRmdir(){
+            System.setOut(new PrintStream(outputStream));
+            rmdirCommand = new RmdirCommand();
+            rmdirCommand.execute("rmdir empty");
 
-        assertTrue(!Arrays.asList(directories).contains("files"));
+            String actualOutput = outputStream.toString();
+
+            String expectedOutput = "Directory deleted: F:\\Projects\\Java\\CLI_JUnit\\empty\n";
+
+            assertEquals(
+                    // Convert newline from windows "\r\n" to unix "\n"
+                    expectedOutput.replace("\r\n", "\n").trim(),
+                    actualOutput.replace("\r\n", "\n").trim());
+        }
     }
 
-    // test wrong usage
+    // Test wrong usage
     @Test
-    public void testWrongUsage()
-    {
-        c = new RmdirCommand();
-        c.execute("rmdir");
-        String actual = outputStream.toString().replaceAll("\u001B\\[[;\\d]*m", "");
-        String expected = "Invalid usage. Correct usage: rmdir <directory_name>";
+    public void testWrongUsage(){
+        rmdirCommand = new RmdirCommand();
+        rmdirCommand.execute("rmdir");
+        String actual = outputStream.toString();
+        String expected = CLI.ANSI_RED+"Invalid usage. Correct usage: rmdir <directory_name>"+CLI.ANSI_RESET;
         assertEquals(expected.trim(), actual.trim());
     }
 
-    
-    // test if file not exist
+    // Test if file not exist
     @Test
     public void testNotExisting(){
-        c = new RmdirCommand();
-        c.execute("rmdir");
-        String actual = outputStream.toString().replaceAll("\u001B\\[[;\\d]*m", "");
-        String expected = "Directory does not exist.";
+        rmdirCommand = new RmdirCommand();
+        rmdirCommand.execute("rmdir doesn't_exist");
+        String actual = outputStream.toString();
+        String expected = CLI.ANSI_RED + "Directory does not exist." + CLI.ANSI_RESET;
         assertEquals(expected.trim(), actual.trim());
     }
 
-    // test if folder not empty
+    // Test if folder not empty
     @Test
     public void TestNotEmpty(){
-        c = new RmdirCommand();
-        c.execute("rmdir files");
-        String actual = outputStream.toString().replaceAll("\u001B\\[[;\\d]*m", "");
-        String expected = "Directory is not empty.";
+        CdCommand cdCommand = new CdCommand();
+        cdCommand.execute("cd Testing");
+        rmdirCommand = new RmdirCommand();
+        rmdirCommand.execute("rmdir Recursive_folder");
+        String actual = outputStream.toString();
+        String expected = CLI.ANSI_RED+"Directory is not empty."+CLI.ANSI_RESET;
         assertEquals(expected.trim(), actual.trim());
     }
 }

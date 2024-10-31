@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
-// Command to overwrite output to a file
 public class RedirectOverwriteCommand implements Command {
     // Create a scanner object to read user input
     Scanner scanner = new Scanner(System.in);
@@ -23,21 +22,23 @@ public class RedirectOverwriteCommand implements Command {
         // Get the file name
         String fileName = tokens[1].trim();
 
+        // Create a file object with the given file name in the specified path
+        File file = new File(CLI.currentPath, fileName);
+
         // Check if the file exists
-        if (!new File (fileName).exists()) {
-            // Choose either create new file or no
-            System.out.println(CLI.ANSI_YELLOW+"File does not exist. Want you to create new one and write?: "+CLI.ANSI_RESET);
-            System.out.println(CLI.ANSI_YELLOW+"Y --> Accept"+CLI.ANSI_RESET);
-            System.out.println(CLI.ANSI_YELLOW+"N --> Reject"+CLI.ANSI_RESET);
+        if (!file.exists()) {
+            // Prompt user to create a new file or not
+            System.out.println(CLI.ANSI_YELLOW + "File does not exist. Do you want to create a new one and write? " + CLI.ANSI_RESET);
+            System.out.println(CLI.ANSI_YELLOW + "Y --> Accept" + CLI.ANSI_RESET);
+            System.out.println(CLI.ANSI_YELLOW + "N --> Reject" + CLI.ANSI_RESET);
             char option = scanner.next().charAt(0);
             if (option == 'N' || option == 'n') {
                 return;
             }
             if (option != 'Y' && option != 'y') {
-                System.out.println(CLI.ANSI_RED+"Invalid Option: "+CLI.ANSI_RESET);
+                System.out.println(CLI.ANSI_RED + "Invalid Option" + CLI.ANSI_RESET);
                 return;
             }
-
         }
 
         // Split the output tokens and remove the first token which is the command
@@ -46,8 +47,6 @@ public class RedirectOverwriteCommand implements Command {
         // Join the output tokens to form the output string
         String output = String.join(" ", outputTokens);
 
-        // Create a file object with the given file name
-        File file = new File(CLI.currentPath, fileName);
         try (FileWriter writer = new FileWriter(file)) {
             // Write the output to the file
             writer.write(output);

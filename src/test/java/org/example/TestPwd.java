@@ -1,3 +1,5 @@
+package org.example;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -5,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestPwd {
-    Command c = new PwdCommand();
+    Command pwdCommand = new PwdCommand();
 
     // Save the original System.out to reuse after the test
     private final PrintStream originalOut = System.out;
@@ -17,7 +19,7 @@ public class TestPwd {
     private ByteArrayOutputStream outputStream;
     @BeforeEach
     void setUp() {
-        Main.currentPath = System.getProperty("user.dir");
+        CLI.currentPath = System.getProperty("user.dir");
 
         // Set up the output stream to capture System.out
         outputStream = new ByteArrayOutputStream();
@@ -32,8 +34,8 @@ public class TestPwd {
     }
     @Test
     public void testPwd(){
-        c.execute("pwd");
-        String expectedPath = Main.currentPath;
+        pwdCommand.execute("pwd");
+        String expectedPath = CLI.currentPath;
         String actualPath = outputStream.toString();
         assertEquals(expectedPath.trim(), actualPath.trim());
 

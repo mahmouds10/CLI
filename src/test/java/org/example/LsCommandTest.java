@@ -39,7 +39,6 @@ class LsCommandTest {
 
     // Test the hidden files option
     @Test
-    @Order(1)
     void TestHiddenFiles() {
         // Execute the 'ls' command
         lsCommand.execute("ls -a");
@@ -64,7 +63,6 @@ class LsCommandTest {
 
     // Test the wrong usage case
     @Test
-    @Order(3)
     void TestWrongUsage() {
         // Execute the 'ls' command
         lsCommand.execute("ls -s");
@@ -81,7 +79,6 @@ class LsCommandTest {
 
     // Test the normal usage case
     @Test
-    @Order(2)
     void TestNormalUsage() {
         // Execute the 'ls' command
         lsCommand.execute("ls");
@@ -107,7 +104,6 @@ class LsCommandTest {
 
     // Test the recursive files option
     @Test
-    @Order(4)
     void TestRecursiveLsCommand() {
         // Change to the testing directory
         CdCommand cdCommand = new CdCommand();
@@ -122,6 +118,7 @@ class LsCommandTest {
         // Define the expected output with proper indentation and structure
         String expectedOutput =
                 """
+                        Cat.txt
                         Recursive_Folder
                           Inner1.txt
                           inner2.txt
