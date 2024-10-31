@@ -17,15 +17,17 @@ public class RmdirCommand implements Command {
         // Create file object with the given directory name
         File dir = new File(CLI.currentPath, tokens[1]);
 
+        if (!dir.exists()) {
+            System.out.println(CLI.ANSI_RED + "Directory does not exist." + CLI.ANSI_RESET);
+            return;
+        }
+        
         if (dir.list().length != 0){
             System.out.println(CLI.ANSI_RED + "Directory is not empty." + CLI.ANSI_RESET);
             return;
         }
 
-        if (!dir.exists()) {
-            System.out.println(CLI.ANSI_RED + "Directory does not exist." + CLI.ANSI_RESET);
-            return;
-        }
+        
 
         // Check if the directory exists and is empty
         if (dir.exists() && dir.isDirectory() && dir.list().length == 0) {
