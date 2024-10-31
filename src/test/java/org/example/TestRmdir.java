@@ -54,4 +54,25 @@ public class TestRmdir {
         String expected = "Invalid usage. Correct usage: rmdir <directory_name>";
         assertEquals(expected.trim(), actual.trim());
     }
+
+    
+    // test if file not exist
+    @Test
+    public void testNotExisting(){
+        c = new RmdirCommand();
+        c.execute("rmdir");
+        String actual = outputStream.toString().replaceAll("\u001B\\[[;\\d]*m", "");
+        String expected = "Directory does not exist.";
+        assertEquals(expected.trim(), actual.trim());
+    }
+
+    // test if folder not empty
+    @Test
+    public void TestNotEmpty(){
+        c = new RmdirCommand();
+        c.execute("rmdir files");
+        String actual = outputStream.toString().replaceAll("\u001B\\[[;\\d]*m", "");
+        String expected = "Directory is not empty.";
+        assertEquals(expected.trim(), actual.trim());
+    }
 }
